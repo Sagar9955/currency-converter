@@ -1,8 +1,9 @@
-let URL="https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/usd/inr.json";
-
 let dropdowns=document.querySelectorAll(".dropdown select");
-
-// cuurency  and currency code
+let fromcurr=document.querySelector(".from select");
+let tocurr=document.querySelector(".to select");
+let btn=document.querySelector(".generate");
+let msg=document.querySelector(".msg")
+// cuurency  and country code
 const countryList = {
     AED: "AE",
     AFN: "AF",
@@ -178,17 +179,37 @@ for(let select of dropdowns){
         if(select.name==="to" && curr==="INR"){
             options.selected=true;
         }
-        select.addEventListener("change",(eve)=>{
-            flagchange(eve.target);
-        });
+        
     }
+    select.addEventListener("change",(eve)=>{
+        flagchange(eve.target);
+    });
 }
 
-let flagchange=(element)=>{
+let currencyconversion=async()=>{
+    let amount=document.querySelector(".amount");
+    let amtval=amount.value;
+    let URL=`https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/${fromcurr.value.toLowerCase()}/${tocurr.value.toLowerCase()}.json`;
+    let response=await fetch(URL);
+    let data=await response.json();
+    let rate=data[tocurr.value.toLowerCase()]
+    let finalamt=amtval*rate;
+    msg.innerText=finalamt;
+}
+let flagchange=("click",(element)=>{
     let currcode=element.value;
     let currcount=countryList[currcode];
-    let newsrc="https://flagsapi.com/${currcount}/flat/64.png";
+    console.log(currcode)
+    let newsrc=`https://flagsapi.com/${currcount}/flat/64.png`;
     let img = element.parentElement.querySelector("img");
     img.src=newsrc;
-}
+})
 
+btn.addEventListener("click",(evt)=>{
+    evt.preventDefault();
+    currencyconversion();
+})
+
+window.addEventListener("load", () => {
+    currencyconversion();
+  });

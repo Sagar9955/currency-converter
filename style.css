@@ -1,0 +1,21 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    background-color: #7A6F9B;
+}
+.container{
+    min-height: 45vh;
+    width: 45vh;
+    background-color: #D4CDF4;
+    border-radius: 10px;
+}
+.dropdown{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
